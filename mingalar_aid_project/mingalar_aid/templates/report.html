@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Report a disaster | Mingalar Aid{% endblock %}
+{% block content %}
+<div class="form-layout">
+  <div class="form-intro"><p class="eyebrow">HELP US RESPOND</p><h1>Report a disaster</h1><p>Share what happened and where help may be needed. You do not need an account to submit a report.</p><div class="notice"><strong>What happens next?</strong><br>An administrator will review your report. It will only appear publicly after approval.</div><p class="small-note">For immediate danger, contact local emergency services directly. This website is not an emergency dispatch service.</p></div>
+  <form class="form-card" method="post">
+    <label for="disaster_date">Date of disaster *</label><input id="disaster_date" name="disaster_date" type="date" required>
+    <label for="place">Place / location *</label><input id="place" name="place" type="text" placeholder="Township, village, or specific location" required maxlength="180">
+    <label for="description">Description *</label><textarea id="description" name="description" rows="6" placeholder="Describe what happened and what kind of help may be needed..." required maxlength="3000"></textarea>
+    <label for="evidence_url">Evidence link (optional)</label><input id="evidence_url" name="evidence_url" type="url" placeholder="https://...">
+    <button class="button primary full" type="submit">Submit report for review</button>
+    <p class="form-footnote">Your report is submitted anonymously. Please do not include private information about other people.</p>
+  </form>
+</div>
+{% endblock %}

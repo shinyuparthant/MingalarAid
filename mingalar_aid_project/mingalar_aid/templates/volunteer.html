@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Volunteer | Mingalar Aid{% endblock %}
+{% block content %}
+<div class="form-layout">
+  <div class="form-intro"><p class="eyebrow">LEND A HAND</p><h1>Become a volunteer</h1><p>Tell the relief organizers how you may be able to help. They can contact you with next steps.</p><div class="notice"><strong>Volunteer safely</strong><br>Wait for confirmation from a trusted organizer and follow official safety guidance. Do not enter dangerous areas on your own.</div></div>
+  <form class="form-card" method="post">
+    <label for="volunteer_name">Your name *</label><input id="volunteer_name" name="volunteer_name" required maxlength="120">
+    <label for="disaster_id">Disaster to support</label><select id="disaster_id" name="disaster_id"><option value="">General volunteering</option>{% for d in disasters %}<option value="{{ d.id }}">{{ d.place }} — {{ d.disaster_date }}</option>{% endfor %}</select>
+    <label for="skills">How would you like to help? *</label><textarea id="skills" name="skills" rows="4" placeholder="e.g. packing supplies, translation, logistics, cooking..." required maxlength="1000"></textarea>
+    <label for="contact">Contact information *</label><input id="contact" name="contact" placeholder="Phone number or email" required maxlength="180">
+    <button class="button primary full" type="submit">Register as volunteer</button>
+  </form>
+</div>
+{% endblock %}
