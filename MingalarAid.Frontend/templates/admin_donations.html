@@ -1,0 +1,17 @@
+{% extends "admin_base.html" %}
+{% block title %}Donations | Mingalar Aid{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header"><div><p class="eyebrow">DONATIONS</p><h1>Donation review and totals</h1><p>Confirm submitted payments and filter records by time period or event.</p></div><span class="admin-header-count">{{ donations|length }} records</span></header>
+
+<section class="admin-section first-section">
+  <div class="donation-summary"><span>Confirmed donation total</span><strong>{{ "{:,}".format(total_donations or 0) }} MMK</strong></div>
+  <form class="donation-filters" method="get" action="{{ url_for('admin_donations') }}">
+    <div><label for="filter-date">Date</label><input id="filter-date" name="date" type="date" value="{{ selected_date }}"></div>
+    <div><label for="filter-month">Month</label><input id="filter-month" name="month" type="month" value="{{ selected_month }}"></div>
+    <div><label for="filter-year">Year</label><input id="filter-year" name="year" type="number" min="2000" max="2100" placeholder="YYYY" value="{{ selected_year }}"></div>
+    <div><label for="filter-disaster">Disaster event</label><select id="filter-disaster" name="disaster_id"><option value="">All events</option><option value="general" {% if selected_disaster == 'general' %}selected{% endif %}>General relief support</option>{% for event in disaster_options %}<option value="{{ event.id }}" {% if selected_disaster == event.id|string %}selected{% endif %}>{{ event.place }} — {{ event.disaster_date }}</option>{% endfor %}</select></div>
+    <div class="filter-actions"><button class="button primary" type="submit">Apply filters</button><a class="button secondary" href="{{ url_for('admin_donations') }}">Clear</a></div>
+  </form>
+  <div class="table-wrap"><table><thead><tr><th>Name</th><th>Method</th><th>Amount</th><th>Disaster event</th><th>Date</th><th>Contact</th><th>Status</th><th>Action</th></tr></thead><tbody>{% for d in donations %}<tr><td data-label="Name">{{ d.donor_name }}</td><td data-label="Method">{{ d.payment_method or d.donation_type }}</td><td data-label="Amount">{% if d.amount %}{{ "{:,}".format(d.amount) }} {{ d.currency or "MMK" }}{% else %}{{ d.amount_or_items }}{% endif %}</td><td data-label="Disaster event">{{ d.disaster_place or "General relief support" }}</td><td data-label="Date">{{ d.created_at[:10] }}</td><td data-label="Contact">{{ d.contact }}</td><td data-label="Status"><span class="status {{ d.status }}">{{ d.status }}</span></td><td data-label="Action">{% if d.status == 'pending' %}<div class="moderation-actions donation-actions"><form method="post" action="{{ url_for('moderate_donation', donation_id=d.id, action='approve') }}"><button class="button primary" type="submit">Approve</button></form><form class="js-confirm-form" method="post" action="{{ url_for('moderate_donation', donation_id=d.id, action='reject') }}" data-confirm-kind="donation"><button class="button danger" type="submit">Reject</button></form></div>{% else %}<span class="count">Reviewed</span>{% endif %}</td></tr>{% else %}<tr><td colspan="8">No donations match these filters.</td></tr>{% endfor %}</tbody></table></div>
+</section>
+{% endblock %}

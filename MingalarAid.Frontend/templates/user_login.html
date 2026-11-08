@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sign in | Mingalar Aid</title>
   <script>document.documentElement.dataset.theme=localStorage.getItem('mingalar-theme')||'light';document.documentElement.lang=localStorage.getItem('mingalar-language')||'en';</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 </head>
 <body class="auth-page">
@@ -15,9 +17,7 @@
       <a class="auth-brand" href="{{ url_for('index') }}"><span class="brand-mark">M</span> Mingalar Aid</a>
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          <div class="auth-messages">
-            {% for category, message in messages %}<div class="message {{ category }}">{{ message }}</div>{% endfor %}
-          </div>
+          <script id="flash-messages" type="application/json">{{ messages | tojson }}</script>
         {% endif %}
       {% endwith %}
       <form class="auth-form" method="post">

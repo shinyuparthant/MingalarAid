@@ -1,25 +1,38 @@
 from flask import abort, flash, redirect, render_template, request, url_for
 
 from api.guards import admin_required
-from service import disaster_service, donation_service, volunteer_service
+from service import admin_service, disaster_service, donation_service, volunteer_service
 
 
 def register_admin_api(app):
     @app.route("/admin")
     @admin_required
     def admin_dashboard():
+        return render_template(
+            "admin_dashboard.html", summary=admin_service.dashboard_summary()
+        )
+
+    @app.route("/admin/reports")
+    @admin_required
+    def admin_reports():
+        pending, all_disasters, _options = disaster_service.admin_snapshot()
+        return render_template(
+            "admin_reports.html", pending=pending, all_disasters=all_disasters
+        )
+
+    @app.route("/admin/donations")
+    @admin_required
+    def admin_donations():
         filters = {
             "date": request.args.get("date", "").strip(),
             "month": request.args.get("month", "").strip(),
             "year": request.args.get("year", "").strip(),
             "disaster_id": request.args.get("disaster_id", "").strip(),
         }
-        pending, all_disasters, disaster_options = disaster_service.admin_snapshot()
+        _pending, _all_disasters, disaster_options = disaster_service.admin_snapshot()
         donations, total_donations = donation_service.admin_report(filters)
         return render_template(
-            "admin_dashboard.html",
-            pending=pending,
-            all_disasters=all_disasters,
+            "admin_donations.html",
             donations=donations,
             total_donations=total_donations,
             disaster_options=disaster_options,
@@ -27,7 +40,13 @@ def register_admin_api(app):
             selected_month=filters["month"],
             selected_year=filters["year"],
             selected_disaster=filters["disaster_id"],
-            volunteers=volunteer_service.list_all(),
+        )
+
+    @app.route("/admin/volunteers")
+    @admin_required
+    def admin_volunteers():
+        return render_template(
+            "admin_volunteers.html", volunteers=volunteer_service.list_all()
         )
 
     @app.route("/admin/disasters/<int:disaster_id>/<action>", methods=["POST"])
@@ -37,7 +56,7 @@ def register_admin_api(app):
         if status is None:
             abort(404)
         flash(f"Report {status}.", "success")
-        return redirect(url_for("admin_dashboard"))
+        return redirect(url_for("admin_reports"))
 
     @app.route("/admin/donations/<int:donation_id>/<action>", methods=["POST"])
     @admin_required
@@ -46,4 +65,4 @@ def register_admin_api(app):
         if status is None:
             abort(404)
         flash(f"Donation {status}.", "success")
-        return redirect(request.referrer or url_for("admin_dashboard"))
+        return redirect(request.referrer or url_for("admin_donations"))

@@ -160,6 +160,43 @@ td { color: var(--muted); }
 .donation-filters input, .donation-filters select { width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
 .filter-actions { display: flex; gap: 7px; }
 .donation-actions { flex-wrap: nowrap; margin: 0; }
+.admin-shell { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 34px; align-items: start; padding: 34px 0 72px; }
+.admin-sidebar { position: sticky; top: 102px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.admin-sidebar-heading { display: grid; gap: 2px; padding: 20px; border-bottom: 1px solid var(--border); }
+.admin-sidebar-heading span { color: var(--text); font: 800 15px 'Manrope', 'Noto Sans Myanmar', sans-serif; }
+.admin-sidebar-heading small { color: var(--muted); font-size: 11px; }
+.admin-nav { display: grid; gap: 4px; padding: 10px; }
+.admin-nav a { display: flex; align-items: center; gap: 11px; padding: 11px 12px; border-radius: 8px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.admin-nav a:hover { background: var(--surface-soft); color: var(--text); }
+.admin-nav a.active { background: var(--brand-soft); color: var(--brand); }
+.admin-nav-icon { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 7px; font-size: 9px; }
+.admin-sidebar-exit { display: block; margin: 0 10px 10px; padding: 11px 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; font-weight: 700; }
+.admin-sidebar-exit:hover { color: var(--danger); }
+.admin-main { min-width: 0; }
+.admin-page-header { min-height: 150px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 20px 0 30px; border-bottom: 1px solid var(--border); }
+.admin-page-header h1 { margin: 0 0 8px; color: var(--text); font: 800 clamp(29px, 4vw, 40px) / 1.15 'Manrope', 'Noto Sans Myanmar', sans-serif; letter-spacing: -1.2px; }
+.admin-page-header p:last-child { max-width: 620px; margin: 0; color: var(--muted); font-size: 14px; }
+.admin-header-count { flex: 0 0 auto; padding: 7px 10px; border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 11px; font-weight: 700; }
+.first-section { margin-top: 28px; }
+.admin-metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 28px 0 16px; }
+.admin-metric { display: grid; gap: 4px; min-height: 145px; padding: 19px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.admin-metric:hover { border-color: var(--brand); }
+.admin-metric span { color: var(--muted); font-size: 12px; font-weight: 700; }
+.admin-metric strong { color: var(--text); font: 800 32px 'Manrope', sans-serif; }
+.admin-metric small { align-self: end; color: var(--muted); font-size: 10px; }
+.admin-metric.attention strong { color: var(--brand); }
+.admin-total-card { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 22px; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--brand-soft); }
+.admin-total-card div { display: grid; gap: 3px; }
+.admin-total-card span { color: var(--brand); font-size: 13px; font-weight: 800; }
+.admin-total-card small { color: var(--muted); font-size: 11px; }
+.admin-total-card > strong { color: var(--brand); font: 800 25px 'Manrope', sans-serif; white-space: nowrap; }
+.admin-quick-links { margin-top: 36px; }
+.admin-link-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.admin-link-grid a { display: grid; gap: 8px; min-height: 150px; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.admin-link-grid a:hover { border-color: var(--brand); }
+.admin-link-grid strong { color: var(--text); font-size: 14px; }
+.admin-link-grid span { color: var(--muted); font-size: 12px; }
+.admin-link-grid small { align-self: end; color: var(--brand); font-weight: 700; }
 
 .auth-page { min-height: 100vh; background: var(--bg); }
 .auth-shell { min-height: 100vh; display: grid; place-items: center; padding: 60px 18px 30px; position: relative; }
@@ -187,6 +224,12 @@ html[lang="my"] h1, html[lang="my"] h2, html[lang="my"] h3, html[lang="my"] .bra
   .card-grid, .support-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .form-layout { grid-template-columns: 1fr; gap: 28px; padding: 48px 0 70px; }
   .donation-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-shell { grid-template-columns: 1fr; gap: 22px; }
+  .admin-sidebar { position: static; }
+  .admin-sidebar-heading, .admin-sidebar-exit { display: none; }
+  .admin-nav { display: flex; overflow-x: auto; }
+  .admin-nav a { flex: 0 0 auto; }
+  .admin-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {
@@ -205,5 +248,85 @@ html[lang="my"] h1, html[lang="my"] h2, html[lang="my"] h3, html[lang="my"] .bra
   .form-card, .detail-panel, .auth-modal { padding: 22px; }
   .donation-summary { align-items: flex-start; flex-direction: column; gap: 5px; }
   .donation-filters { grid-template-columns: 1fr; }
+  .admin-page-header { min-height: 0; flex-direction: column; padding-top: 8px; }
+  .admin-metric-grid, .admin-link-grid { grid-template-columns: 1fr; }
+  .admin-metric { min-height: 120px; }
+  .admin-total-card { grid-template-columns: 1fr; gap: 10px; }
   .footer-inner { flex-direction: column; gap: 4px; }
+}
+
+/* Standalone responsive admin workspace */
+html, body { max-width: 100%; overflow-x: hidden; }
+.admin-body { min-height: 100vh; background: var(--bg); }
+.admin-app { min-height: 100vh; display: grid; grid-template-columns: 250px minmax(0, 1fr); }
+.admin-app .admin-sidebar { position: sticky; top: 0; z-index: 40; width: 250px; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; border: 0; border-right: 1px solid var(--border); border-radius: 0; background: var(--surface); box-shadow: none; }
+.admin-brand { display: flex; align-items: center; gap: 11px; padding: 22px 20px; border-bottom: 1px solid var(--border); }
+.admin-brand > span:last-child { display: grid; gap: 1px; }
+.admin-brand strong { color: var(--text); font: 800 16px 'Manrope', 'Noto Sans Myanmar', sans-serif; }
+.admin-brand small { color: var(--muted); font-size: 10px; }
+.admin-app .admin-nav { display: grid; flex: 1; align-content: start; overflow: visible; padding: 14px 12px; }
+.admin-sidebar-footer { display: grid; gap: 5px; padding: 14px 12px; border-top: 1px solid var(--border); }
+.admin-sidebar-footer .preference-controls { margin-bottom: 8px; }
+.admin-sidebar-footer > a { padding: 9px 10px; border-radius: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.admin-sidebar-footer > a:hover { background: var(--surface-soft); color: var(--text); }
+.admin-sidebar-footer > .admin-logout:hover { color: var(--danger); }
+.admin-app .admin-main { width: 100%; max-width: 1320px; min-width: 0; margin: 0 auto; padding: 32px clamp(20px, 4vw, 54px) 72px; }
+.admin-menu-toggle { display: none; }
+.admin-sidebar-backdrop { display: none; }
+.admin-main .messages { padding-top: 0; }
+.admin-main .table-wrap { max-width: 100%; overflow: visible; }
+.admin-main table { table-layout: fixed; }
+.admin-main th, .admin-main td { white-space: normal; overflow-wrap: anywhere; }
+.admin-main .donation-filters { grid-template-columns: minmax(130px, 1fr) minmax(130px, 1fr) minmax(100px, .7fr) minmax(190px, 1.5fr) auto; }
+
+@media (max-width: 1100px) {
+  .admin-main .table-wrap { border: 0; background: transparent; }
+  .admin-main table, .admin-main tbody, .admin-main tr, .admin-main td { display: block; width: 100%; }
+  .admin-main thead { display: none; }
+  .admin-main tr { margin-bottom: 12px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+  .admin-main td { display: grid; grid-template-columns: minmax(110px, 32%) minmax(0, 1fr); gap: 12px; align-items: center; min-height: 45px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .admin-main td:last-child { border-bottom: 0; }
+  .admin-main td::before { content: attr(data-label); color: var(--muted); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; }
+  .admin-main td[colspan] { display: block; }
+  .admin-main td[colspan]::before { content: none; }
+  .admin-main .donation-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 800px) {
+  .admin-app { display: block; }
+  .admin-app .admin-sidebar { position: fixed; left: 0; top: 0; width: min(280px, 84vw); transform: translateX(-105%); transition: transform .2s ease; box-shadow: 18px 0 50px rgb(0 0 0 / 18%); }
+  .admin-app .admin-sidebar.open { transform: translateX(0); }
+  .admin-sidebar-backdrop { position: fixed; inset: 0; z-index: 30; display: block; visibility: hidden; background: rgb(0 0 0 / 38%); opacity: 0; transition: opacity .2s, visibility .2s; }
+  .admin-sidebar-backdrop.open { visibility: visible; opacity: 1; }
+  .admin-menu-toggle { position: fixed; top: 12px; left: 12px; z-index: 25; display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); color: var(--text); box-shadow: var(--shadow); font-size: 12px; font-weight: 800; }
+  .admin-app .admin-main { padding: 72px 14px 50px; }
+  .admin-app .admin-nav { display: grid; overflow: visible; }
+  .admin-app .admin-nav a { flex: initial; }
+  .admin-page-header { min-height: 0; padding-top: 0; }
+}
+
+@media (max-width: 600px) {
+  .admin-main .donation-filters { grid-template-columns: 1fr; }
+  .admin-main td { grid-template-columns: minmax(90px, 38%) minmax(0, 1fr); }
+  .admin-main .filter-actions, .admin-main .donation-actions { flex-wrap: wrap; }
+}
+/* SweetAlert2 follows the application's typography and visual language. */
+.mingalar-swal {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: inherit;
+  box-shadow: 0 24px 70px rgb(10 31 24 / 24%);
+}
+
+.mingalar-swal .swal2-title {
+  line-height: 1.25;
+}
+
+.mingalar-swal .swal2-html-container {
+  white-space: pre-line;
+}
+
+.mingalar-swal .swal2-actions button {
+  border-radius: 10px;
+  font-weight: 700;
 }

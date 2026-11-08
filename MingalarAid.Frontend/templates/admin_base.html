@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Admin | Mingalar Aid{% endblock %}</title>
+  <script>document.documentElement.dataset.theme=localStorage.getItem('mingalar-theme')||'light';document.documentElement.lang=localStorage.getItem('mingalar-language')||'en';</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body class="admin-body">
+  <div class="admin-app">
+    <button class="admin-menu-toggle" type="button" aria-label="Open admin menu" aria-expanded="false"><span>☰</span> Menu</button>
+    <div class="admin-sidebar-backdrop" data-admin-close></div>
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <a class="admin-brand" href="{{ url_for('admin_dashboard') }}"><span class="brand-mark">M</span><span><strong>Mingalar Aid</strong><small>Admin workspace</small></span></a>
+      <nav class="admin-nav">
+        <a class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}" href="{{ url_for('admin_dashboard') }}"><span class="admin-nav-icon">01</span><span>Overview</span></a>
+        <a class="{% if request.endpoint == 'admin_reports' %}active{% endif %}" href="{{ url_for('admin_reports') }}"><span class="admin-nav-icon">02</span><span>Disaster reports</span></a>
+        <a class="{% if request.endpoint == 'admin_donations' %}active{% endif %}" href="{{ url_for('admin_donations') }}"><span class="admin-nav-icon">03</span><span>Donations</span></a>
+        <a class="{% if request.endpoint == 'admin_volunteers' %}active{% endif %}" href="{{ url_for('admin_volunteers') }}"><span class="admin-nav-icon">04</span><span>Volunteers</span></a>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <div class="preference-controls"><button class="control-button" type="button" data-language-toggle aria-label="Change language">မြန်မာ</button><button class="control-button theme-button" type="button" data-theme-toggle aria-label="Change color theme"><span data-theme-icon aria-hidden="true">◐</span><span data-theme-label>Dark</span></button></div>
+        <a href="{{ url_for('index') }}">View public site</a>
+        <a class="admin-logout" href="{{ url_for('admin_logout') }}">Log out</a>
+      </div>
+    </aside>
+    <main class="admin-main">
+      {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<script id="flash-messages" type="application/json">{{ messages | tojson }}</script>{% endif %}{% endwith %}
+      {% block admin_content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

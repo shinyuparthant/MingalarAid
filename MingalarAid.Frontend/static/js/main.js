@@ -1,4 +1,29 @@
 const myanmarText = {
+  "Admin workspace": "Admin စီမံခန့်ခွဲမှု",
+  "Menu": "မီနူး",
+  "View public site": "အများပြည်သူစာမျက်နှာ ကြည့်ရန်",
+  "Manage relief activity": "ကူညီရေးလုပ်ငန်းများ စီမံရန်",
+  "Overview": "ခြုံငုံကြည့်ရန်",
+  "Disaster reports": "ဘေးအန္တရာယ်အစီရင်ခံချက်များ",
+  "Relief activity at a glance": "ကူညီရေးလုပ်ငန်း အကျဉ်းချုပ်",
+  "Review what needs attention and open a section to manage its records.": "စစ်ဆေးရန်လိုအပ်ချက်များကို ကြည့်ပြီး သက်ဆိုင်ရာကဏ္ဍမှ မှတ်တမ်းများကို စီမံနိုင်ပါတယ်။",
+  "Pending reports": "စောင့်ဆိုင်းနေသော အစီရင်ခံချက်များ",
+  "Waiting for review": "စစ်ဆေးရန် စောင့်ဆိုင်းနေသည်",
+  "All reports": "အစီရင်ခံချက်အားလုံး",
+  "Across every status": "အခြေအနေအားလုံး",
+  "Pending donations": "စောင့်ဆိုင်းနေသော လှူဒါန်းမှုများ",
+  "Waiting for confirmation": "အတည်ပြုရန် စောင့်ဆိုင်းနေသည်",
+  "Registered helpers": "မှတ်ပုံတင်ထားသော ကူညီသူများ",
+  "Approved donations across all events": "ဖြစ်ရပ်အားလုံး၏ အတည်ပြုပြီးလှူဒါန်းမှုများ",
+  "View donations": "လှူဒါန်းမှုများ ကြည့်ရန်",
+  "Manage records": "မှတ်တမ်းများ စီမံရန်",
+  "Review submitted reports": "တင်ပြထားသော အစီရင်ခံချက်များ စစ်ဆေးရန်",
+  "Approve verified reports before they appear on the public site.": "အများပြည်သူစာမျက်နှာမှာ မပြခင် အတည်ပြုထားသောအစီရင်ခံချက်များကို ခွင့်ပြုပါ။",
+  "Pending review": "စစ်ဆေးရန် စောင့်ဆိုင်းနေသည်",
+  "Donation review and totals": "လှူဒါန်းမှုစစ်ဆေးခြင်းနှင့် စုစုပေါင်း",
+  "Confirm submitted payments and filter records by time period or event.": "တင်ပြထားသောငွေပေးချေမှုများကို အတည်ပြုပြီး အချိန် သို့မဟုတ် ဖြစ်ရပ်အလိုက် စစ်ထုတ်နိုင်ပါတယ်။",
+  "Volunteer registrations": "စေတနာ့ဝန်ထမ်း မှတ်ပုံတင်မှုများ",
+  "View the people who offered their time, skills, and contact information.": "အချိန်နဲ့ကျွမ်းကျင်မှု ပေးကူညီသူများ၏ ဆက်သွယ်ရန်အချက်အလက်ကို ကြည့်နိုင်ပါတယ်။",
   "COMMUNITY ALERTS": "လူမှုအသိုင်းအဝိုင်း သတိပေးချက်များ",
   "COMMUNITY GENEROSITY": "လူမှုအသိုင်းအဝိုင်း၏ လှူဒါန်းမှု",
   "PEOPLE READY TO HELP": "ကူညီရန်အသင့်ရှိသူများ",
@@ -171,6 +196,79 @@ function updateControls() {
   });
 }
 
+function sweetAlertTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  return {
+    background: dark ? '#14211d' : '#ffffff',
+    color: dark ? '#edf5f1' : '#1c2924',
+    confirmButtonColor: '#16765f',
+    cancelButtonColor: dark ? '#52635d' : '#6b7772'
+  };
+}
+
+function modalText(english, myanmar) {
+  return document.documentElement.lang === 'my' ? myanmar : english;
+}
+
+function showFlashMessage() {
+  const payload = document.getElementById('flash-messages');
+  if (!payload || !window.Swal) return;
+
+  let messages;
+  try {
+    messages = JSON.parse(payload.textContent);
+  } catch (_error) {
+    return;
+  }
+
+  if (!messages.length) return;
+  const [category, message] = messages[0];
+  const isSuccess = category === 'success';
+  const remaining = messages.slice(1).map((entry) => entry[1]);
+  const details = remaining.length ? [message, ...remaining].join('\n') : message;
+
+  Swal.fire({
+    ...sweetAlertTheme(),
+    icon: isSuccess ? 'success' : 'error',
+    title: isSuccess
+      ? modalText('Success', 'အောင်မြင်ပါသည်')
+      : modalText('Something went wrong', 'အဆင်မပြေမှုတစ်ခု ဖြစ်ပွားခဲ့သည်'),
+    text: details,
+    confirmButtonText: modalText('OK', 'ကောင်းပါပြီ'),
+    customClass: { popup: 'mingalar-swal' }
+  });
+}
+
+function setupConfirmationModals() {
+  document.querySelectorAll('.js-confirm-form').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!window.Swal) return;
+
+      const isDonation = form.dataset.confirmKind === 'donation';
+      const result = await Swal.fire({
+        ...sweetAlertTheme(),
+        icon: 'warning',
+        title: isDonation
+          ? modalText('Reject this donation?', 'ဒီလှူဒါန်းမှုကို ပယ်ချမလား။')
+          : modalText('Reject this report?', 'ဒီအစီရင်ခံချက်ကို ပယ်ချမလား။'),
+        text: modalText(
+          'This action will mark the record as rejected.',
+          'ဒီမှတ်တမ်းကို ပယ်ချထားသည့်အခြေအနေအဖြစ် သတ်မှတ်ပါမယ်။'
+        ),
+        showCancelButton: true,
+        reverseButtons: true,
+        focusCancel: true,
+        confirmButtonText: modalText('Yes, reject it', 'ပယ်ချမည်'),
+        cancelButtonText: modalText('Cancel', 'မလုပ်တော့ပါ'),
+        customClass: { popup: 'mingalar-swal' }
+      });
+
+      if (result.isConfirmed) form.submit();
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -178,6 +276,24 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.addEventListener('click', () => {
       const open = nav.classList.toggle('open');
       toggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+
+  const adminMenuToggle = document.querySelector('.admin-menu-toggle');
+  const adminSidebar = document.querySelector('.admin-sidebar');
+  const adminBackdrop = document.querySelector('.admin-sidebar-backdrop');
+  if (adminMenuToggle && adminSidebar && adminBackdrop) {
+    const setAdminMenu = (open) => {
+      adminSidebar.classList.toggle('open', open);
+      adminBackdrop.classList.toggle('open', open);
+      adminMenuToggle.setAttribute('aria-expanded', String(open));
+    };
+    adminMenuToggle.addEventListener('click', () => {
+      setAdminMenu(!adminSidebar.classList.contains('open'));
+    });
+    adminBackdrop.addEventListener('click', () => setAdminMenu(false));
+    adminSidebar.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setAdminMenu(false));
     });
   }
 
@@ -204,4 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.lang = language;
   translateStaticText(language);
   updateControls();
+  setupConfirmationModals();
+  showFlashMessage();
 });
