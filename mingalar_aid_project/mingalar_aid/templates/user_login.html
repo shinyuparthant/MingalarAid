@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in | Mingalar Aid</title>
+  <script>document.documentElement.dataset.theme=localStorage.getItem('mingalar-theme')||'light';document.documentElement.lang=localStorage.getItem('mingalar-language')||'en';</script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <div class="auth-controls preference-controls"><button class="control-button" type="button" data-language-toggle aria-label="Change language">မြန်မာ</button><button class="control-button theme-button" type="button" data-theme-toggle aria-label="Change color theme"><span data-theme-icon aria-hidden="true">◐</span><span data-theme-label>Dark</span></button></div>
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="sign-in-title">
+      <a class="auth-brand" href="{{ url_for('index') }}"><span class="brand-mark">M</span> Mingalar Aid</a>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="auth-messages">
+            {% for category, message in messages %}<div class="message {{ category }}">{{ message }}</div>{% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      <form class="auth-form" method="post">
+        <p class="eyebrow">Member access</p>
+        <h1 id="sign-in-title">Sign in</h1>
+        <p class="auth-intro">Continue to report a disaster, donate, or register as a volunteer.</p>
+        <label for="username">Username</label>
+        <input id="username" name="username" required autocomplete="username" autofocus>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password">
+        <button class="button primary full" type="submit">Sign in</button>
+      </form>
+      <a class="auth-cancel" href="{{ url_for('index') }}">Cancel and return home</a>
+    </div>
+  </main>
+</body>
+</html>

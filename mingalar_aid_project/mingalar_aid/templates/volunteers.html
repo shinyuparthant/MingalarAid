@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Volunteers | Mingalar Aid{% endblock %}
+{% block content %}
+<div class="page-heading list-heading">
+  <p class="eyebrow">PEOPLE READY TO HELP</p>
+  <h1>Community volunteers</h1>
+  <p>Meet the people who have offered their time and skills. Contact details remain private and are available only to administrators.</p>
+  <a class="button primary" href="{{ url_for('volunteer') }}">Become a volunteer</a>
+</div>
+{% if volunteers %}
+<div class="support-grid">
+  {% for volunteer in volunteers %}
+  <article class="support-card">
+    <div class="support-card-top"><span class="support-icon volunteer-icon" aria-hidden="true">+</span><span class="date">{{ volunteer.created_at[:10] }}</span></div>
+    <p class="support-type">Volunteer</p>
+    <h2>{{ volunteer.volunteer_name }}</h2>
+    <p class="support-detail">{{ volunteer.skills }}</p>
+    {% if volunteer.disaster_id %}<a class="support-target text-link" href="{{ url_for('disaster_detail', disaster_id=volunteer.disaster_id) }}">Helping {{ volunteer.disaster_place }} →</a>{% else %}<span class="support-target">General volunteering</span>{% endif %}
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><div class="empty-icon">+</div><h3>No volunteers yet</h3><p>Be the first community member to offer your time.</p><a class="button primary" href="{{ url_for('volunteer') }}">Become a volunteer</a></div>
+{% endif %}
+{% endblock %}

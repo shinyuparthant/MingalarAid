@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Donation offers | Mingalar Aid{% endblock %}
+{% block content %}
+<div class="page-heading list-heading">
+  <p class="eyebrow">COMMUNITY GENEROSITY</p>
+  <h1>Donation offers</h1>
+  <p>See the support offered by community members. Contact details remain private and are available only to administrators.</p>
+  <a class="button primary" href="{{ url_for('donate') }}">Offer a donation</a>
+</div>
+{% if donations %}
+<div class="support-grid">
+  {% for donation in donations %}
+  <article class="support-card">
+    <div class="support-card-top"><span class="support-icon" aria-hidden="true">♡</span><span class="date">{{ donation.created_at[:10] }}</span></div>
+    <p class="support-type">{{ donation.payment_method or donation.donation_type }}</p>
+    <h2>{{ donation.donor_name }}</h2>
+    <p class="support-detail">{% if donation.amount %}{{ "{:,}".format(donation.amount) }} {{ donation.currency or "MMK" }}{% else %}{{ donation.amount_or_items }}{% endif %}</p>
+    {% if donation.disaster_id %}<a class="support-target text-link" href="{{ url_for('disaster_detail', disaster_id=donation.disaster_id) }}">For {{ donation.disaster_place }} →</a>{% else %}<span class="support-target">General relief support</span>{% endif %}
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><div class="empty-icon">♡</div><h3>No donation offers yet</h3><p>Be the first community member to offer support.</p><a class="button primary" href="{{ url_for('donate') }}">Offer a donation</a></div>
+{% endif %}
+{% endblock %}

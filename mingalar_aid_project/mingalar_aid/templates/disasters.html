@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Latest disasters | Mingalar Aid{% endblock %}
 {% block content %}
-<div class="page-heading"><p class="eyebrow">COMMUNITY ALERTS</p><h1>Latest disasters</h1><p>These reports have been reviewed and approved by an administrator.</p></div>
+<div class="page-heading list-heading"><p class="eyebrow">COMMUNITY ALERTS</p><h1>Latest reports</h1><p>These reports have been reviewed and approved by an administrator.</p><a class="button primary" href="{{ url_for('report_disaster') }}">Report a disaster</a></div>
 {% if disasters %}
 <div class="card-grid">
 {% for item in disasters %}

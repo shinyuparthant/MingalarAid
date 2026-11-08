@@ -2,14 +2,28 @@
 {% block title %}Donate | Mingalar Aid{% endblock %}
 {% block content %}
 <div class="form-layout">
-  <div class="form-intro"><p class="eyebrow">GIVE WHAT YOU CAN</p><h1>Offer a donation</h1><p>Register a donation offer for an approved disaster. An organizer can follow up using your contact details.</p><div class="notice"><strong>Prototype notice</strong><br>This form records donation offers only. It does not collect payments or bank details.</div></div>
+  <div class="form-intro">
+    <p class="eyebrow">GIVE WHAT YOU CAN</p><h1>Offer a donation</h1>
+    <p>Send your donation to one of the accounts below, then record the amount using this form.</p>
+    <div class="payment-accounts">
+      <article class="payment-account kbz-account">
+        <img src="{{ url_for('static', filename='img/kbzpay.webp') }}" alt="KBZPay">
+        <div><strong>KBZPay</strong><span>09123456789</span><small>U Mg Mg</small></div>
+      </article>
+      <article class="payment-account wave-account">
+        <img src="{{ url_for('static', filename='img/wavepay-square.jpg') }}" alt="WavePay">
+        <div><strong>WavePay</strong><span>09987654321</span><small>U Mg Mg</small></div>
+      </article>
+    </div>
+    <div class="notice"><strong>Payment note</strong><br>All donation amounts are recorded in Myanmar Kyat (MMK). Keep your transfer receipt for reference.</div>
+  </div>
   <form class="form-card" method="post">
     <label for="donor_name">Your name *</label><input id="donor_name" name="donor_name" required maxlength="120">
     <label for="disaster_id">Disaster to support</label><select id="disaster_id" name="disaster_id"><option value="">General relief support</option>{% for d in disasters %}<option value="{{ d.id }}">{{ d.place }} — {{ d.disaster_date }}</option>{% endfor %}</select>
-    <label for="donation_type">Donation type *</label><select id="donation_type" name="donation_type" required><option value="">Choose one</option><option>Money pledge</option><option>Food and water</option><option>Clothing</option><option>Medical supplies</option><option>Other supplies</option></select>
-    <label for="amount_or_items">Amount or items offered *</label><input id="amount_or_items" name="amount_or_items" placeholder="e.g. 50,000 MMK or 20 packs of drinking water" required maxlength="250">
+    <label for="payment_method">Payment method *</label><select id="payment_method" name="payment_method" required><option value="">Choose one</option><option value="KBZPay">KBZPay</option><option value="WavePay">WavePay</option></select>
+    <label for="amount">Donation amount *</label><div class="money-input"><input id="amount" name="amount" type="number" min="1" step="1" placeholder="50000" required><span>MMK</span></div>
     <label for="contact">Contact information *</label><input id="contact" name="contact" placeholder="Phone number or email" required maxlength="180">
-    <button class="button primary full" type="submit">Submit donation offer</button>
+    <button class="button primary full" type="submit">Record donation</button>
   </form>
 </div>
 {% endblock %}
